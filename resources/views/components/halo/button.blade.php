@@ -47,3 +47,4 @@ $classes = halo_variants([
         <x-halo::icon :name="$icon" size="sm" />
     @endif
 </button>
+
