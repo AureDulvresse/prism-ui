@@ -54,6 +54,8 @@ navigation:
         url: /components/alert
       - title: Alert Dialog
         url: /components/alert-dialog
+      - title: Aspect Ratio
+        url: /components/aspect-ratio
       - title: Avatar
         url: /components/avatar
       - title: Badge
@@ -62,14 +64,24 @@ navigation:
         url: /components/breadcrumb
       - title: Button
         url: /components/button
+      - title: Calendar
+        url: /components/calendar
       - title: Card
         url: /components/card
       - title: Checkbox
         url: /components/checkbox
+      - title: Collapsible
+        url: /components/collapsible
       - title: Combobox
         url: /components/combobox
+      - title: Command
+        url: /components/command
+      - title: Context Menu
+        url: /components/context-menu
       - title: Divider
         url: /components/divider
+      - title: Drawer
+        url: /components/drawer
       - title: Dropdown
         url: /components/dropdown
       - title: Empty State
@@ -78,6 +90,8 @@ navigation:
         url: /components/file-upload
       - title: Heading
         url: /components/heading
+      - title: Hover Card
+        url: /components/hover-card
       - title: Icon
         url: /components/icon
       - title: Image Upload
@@ -94,6 +108,8 @@ navigation:
         url: /components/modal
       - title: Navigation Menu
         url: /components/navigation-menu
+      - title: Number Input
+        url: /components/number-input
       - title: Pagination
         url: /components/pagination
       - title: Popover
@@ -108,6 +124,8 @@ navigation:
         url: /components/scroll-area
       - title: Select
         url: /components/select
+      - title: Sidebar
+        url: /components/sidebar
       - title: Skeleton
         url: /components/skeleton
       - title: Slider
@@ -124,6 +142,8 @@ navigation:
         url: /components/table
       - title: Tabs
         url: /components/tabs
+      - title: Tag
+        url: /components/tag
       - title: Text
         url: /components/text
       - title: Textarea

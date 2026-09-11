@@ -82,6 +82,18 @@ return [
         'combobox' => [
             'placeholder' => 'Select...',
         ],
+
+        'hover-card' => [
+            'position' => 'bottom',
+        ],
+
+        'tag' => [
+            'variant' => 'secondary',
+        ],
+
+        'number-input' => [
+            'size' => 'md',
+        ],
     ],
 
     /*

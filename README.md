@@ -36,7 +36,7 @@
 
 **v4 is a from-scratch rebuild, currently at an early, deliberately small stage.** Earlier versions accumulated dead code and a documentation/reality gap (classes and templates that were never wired up, a theme system that didn't actually theme anything). Rather than carry that forward, v4 starts over with a strict rule: **every component that exists is real, tested, and themed correctly** — nothing is listed here until it ships.
 
-Today that's **35 components** (including 6 layout components). More are added incrementally; see [CHANGELOG.md](CHANGELOG.md) for what's shipped and `docs/` for what's next.
+Today that's **61 components** (including 6 layout components). More are added incrementally; see [CHANGELOG.md](CHANGELOG.md) for what's shipped and `docs/` for what's next.
 
 ## Features
 
@@ -183,12 +183,20 @@ Full props reference for each lives in `docs/{component}.md`; this is the map.
 |-----------|-------|
 | **Button** | Variants `primary`/`secondary`/`outline`/`ghost`/`danger`; sizes `sm`/`md`/`lg`; `icon`, `iconPosition`, `loading`, `disabled` |
 | **Input** | Sizes `sm`/`md`/`lg`; `icon`, `iconPosition`, `invalid`, `error` (message + `aria-describedby`), `disabled`, auto-generated `id` |
+| **Input Group** | Wraps Input with leading/trailing add-ons (icon, text, or a `<x-halo::button>`) sharing one border |
 | **Textarea** | Same size/invalid/error/disabled pattern as Input, plus `rows` and `resize` |
+| **Number Input** | Native `<input type="number">` with +/- buttons respecting `min`/`max`/`step`; dispatches a real `input` event so `wire:model`/`x-model` stay in sync |
 | **Label** | Pairs with any field via `for`; `required` adds a decorative `*` |
 | **Checkbox** | Native `<input type="checkbox">` wrapped in a `<label>`; themed via `accent-halo-primary` |
 | **Radio** | Same pattern as Checkbox; never derives its `id` from the shared group `name` |
-| **Select** | `options` prop (`value => label`) or slot-authored `<option>` tags; `invalid`/`error` like Input |
+| **Select** | Custom-styled trigger + `role="listbox"` panel of `select.item` options (or the `options` prop); `invalid`/`error` like Input |
+| **Combobox** (+ `.option`) | Text input that filters a server-rendered option list client-side as you type |
 | **Switch** | Native `<input type="checkbox" role="switch">` styled as a track/thumb toggle |
+| **Toggle** | Single pressable button; `pressed`/`aria-pressed`, variants `default`/`outline` |
+| **Toggle Group** (+ `.item`) | Segmented control; `type` `single` (one value) or `multiple` (array), WAI-ARIA toolbar pattern |
+| **Slider** | Native `<input type="range">` restyled with a themed track/thumb; `min`/`max`/`step` |
+| **Rating** | Server-rendered stars up to `max`; hover preview before committing a value |
+| **Calendar** | Month-grid date picker primitive; keyboard grid navigation, `min`/`max` bounds, dispatches `calendar-change` — compose inside `<x-halo::popover>` for a full date-picker UX |
 | **File Upload** | Drag-and-drop over a real `<input type="file">`; removable file list, `multiple`, `accept` |
 | **Image Upload** | Same drag-and-drop pattern, restricted to images, with live thumbnail previews |
 
@@ -198,10 +206,18 @@ Full props reference for each lives in `docs/{component}.md`; this is the map.
 |-----------|-------|
 | **Icon** | Resolves any icon in the `halo` Blade Icons set (`resources/icons/halo/*.svg`) by name; sizes `xs`–`xl` |
 | **Badge** | Variants `primary`/`secondary`/`success`/`danger`/`warning` |
+| **Tag** | Inline label mirroring Badge's variants, with an optional `dismissible` close button |
+| **Kbd** | Small inline element for a keyboard key or shortcut |
 | **Avatar** | `src` image, `initials` fallback, or generic icon; `status` dot |
 | **Spinner** | Standalone loading indicator; also used internally by Button's `loading` state |
+| **Skeleton** | Loading placeholder; variants `rectangle`/`circle`/`text` |
 | **Progress** | Determinate (`value`/`max`) or `indeterminate` progress bar |
 | **Divider** | Horizontal (with optional centered `label`) or `vertical` |
+| **Aspect Ratio** | Constrains slotted content (image, iframe) to a `ratio` (e.g. `16/9`) to prevent layout shift |
+| **Scroll Area** | Fixed-height scrollable region with a themed scrollbar; `height` prop |
+| **Empty State** | Icon/illustration + title + description + optional `actions` slot for empty lists/tables |
+| **Stat Card** | Label + value + optional trend indicator, for dashboard metric grids |
+| **Timeline** (+ `.item`) | Vertical event list; each item has an optional `date` |
 | **Card** (+ `.header`/`.body`/`.footer`) | Variants `default`/`bordered`/`elevated` |
 | **Table** (+ `.row`/`.head`/`.cell`) | Styled wrappers around native `<table>`/`<tr>`/`<th>`/`<td>`; `<thead>`/`<tbody>` stay plain HTML |
 
@@ -216,9 +232,14 @@ Full props reference for each lives in `docs/{component}.md`; this is the map.
 | Component | Notes |
 |-----------|-------|
 | **Modal** (+ `.header`/`.body`/`.footer`) | Opened/closed by `name` via `$dispatch('open-modal', name)` — no `:open` prop to sync; traps focus while open, returns it to the trigger on close |
+| **Alert Dialog** (+ `.header`/`.body`/`.footer`) | A stricter Modal for confirmations — its own `open-alert-dialog`/`close-alert-dialog` events so a stray `close-modal` elsewhere can never dismiss it |
+| **Drawer** (+ `.header`/`.body`/`.footer`) | Modal-style focus trap sliding in from a screen edge; `side` `left`/`right`/`top`/`bottom` |
 | **Dropdown** (+ `.item`) | `trigger` named slot; arrow keys move between items, closes on escape/outside click/selecting an item, returns focus to the trigger |
+| **Context Menu** (+ `.item`) | Dropdown's behavior opened by right-click instead of left-click, positioned at the cursor |
+| **Command** (+ `.group`/`.item`/`.empty`) | Cmd+K-style palette: searchable, keyboard-navigable list opened via `$dispatch('open-command')` |
 | **Popover** | `trigger` named slot for arbitrary rich content; no menu semantics, focus returns to the trigger on close |
 | **Tooltip** | `trigger` named slot; shown on hover/focus, `aria-describedby` wired automatically |
+| **Hover Card** | Like Tooltip but for rich anchored content, shown after a hover delay via a `trigger` named slot |
 | **Toast** | One global queue rendered by a single `<x-halo::toast />`; push via `$store.haloToast.push(message, variant)` |
 
 ### Navigation (Alpine-powered)
@@ -227,7 +248,11 @@ Full props reference for each lives in `docs/{component}.md`; this is the map.
 |-----------|-------|
 | **Tabs** (`.list`, `.trigger`, `.panel`) | `default` active tab; arrow keys roam between triggers |
 | **Accordion** (+ `.item`) | `multiple` allows more than one item open at once; each item tracked by an explicit `name` or an auto-generated one |
+| **Collapsible** (`.trigger`, `.content`) | A single standalone disclosure section — the same mechanic as one Accordion item, without the group |
 | **Breadcrumb** (+ `.item`) | `href` for links, `current` for the non-interactive last item |
+| **Navigation Menu** (+ `.item`) | Horizontal top-level nav with active-link styling |
+| **Pagination** | Page-number list with prev/next controls; collapses a long range with ellipses |
+| **Stepper** (+ `.step`) | Multi-step progress indicator; steps before `current` are complete, later ones pending |
 
 ### Layouts
 
@@ -239,6 +264,7 @@ Full props reference for each lives in `docs/{component}.md`; this is the map.
 | **Layout: Auth** | Centered layout for login/register pages, optional `logo` slot |
 | **Layout: Two Column** | Content + secondary sidebar (docs nav, settings nav); `sidebarPosition` `left`\|`right` |
 | **Layout: Page Header** | Title + description + right-aligned `actions` slot |
+| **Sidebar** (+ `.group`/`.item`) | Standalone nav sidebar for a layout of your own choosing — not tied to App Shell's opinionated topbar/drawer structure |
 
 Each component's props, variant maps, and rendered markup live directly in its `.blade.php` file under `resources/views/components/halo/` — read the source, it's short by design.
 
@@ -259,6 +285,8 @@ Colors, radius, and light/dark are CSS custom properties defined in `resources/c
 | **Eclipse** | `eclipse` | Dark background, same blue family as Halo |
 | **Ember** | `ember` | Light, warm orange accent, sharper corners |
 | **Nocturne** | `nocturne` | Dark, near-black background, emerald accent |
+| **Luma** | `luma` | Warm coral/pink accent, aggressively rounded corners |
+| **Flint** | `flint` | Monochrome slate accent, sharp square corners |
 
 ```html
 <html data-theme="eclipse">

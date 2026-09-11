@@ -7,6 +7,21 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- 10 new components: Drawer, Collapsible, Command (a Cmd+K-style palette), Context Menu, Hover Card, Calendar (a month-grid date-picker primitive, composable inside Popover for a full date-picker UX), Tag, Number Input, Aspect Ratio, and a standalone Sidebar (separate from Layout: App Shell's own inline sidebar, for consumers who want just the nav without the rest of App Shell's opinionated structure) — each with a Pest test suite and English/French documentation. 61 components total (including 6 layout components).
+- Laravel 13 / PHP 8.4 support, added as a third, additive CI matrix leg alongside the existing Laravel 11/PHP 8.2-8.3 and Laravel 12/PHP 8.2-8.3 legs — `orchestra/testbench`, `pestphp/pest`, `pestphp/pest-plugin-laravel`, and `phpunit/phpunit` now accept either generation in `composer.json` (e.g. `pestphp/pest: ^3.0 || ^5.0`) so each CI leg resolves the right one for its own Laravel/PHP combination. `illuminate/support`/`view`/`console` now accept `^13.0` too. PHP 8.2+ and Laravel 11+/12+ support is unchanged — this is additive, not a floor raise.
+
+### Fixed
+
+- `README.md`'s component table and component count, and `docs/index.md`'s count, hadn't been updated since v4.1.0 and were missing all 16 components added in v4.3.0 (Alert Dialog, Combobox, Empty State, Input Group, Kbd, Navigation Menu, Pagination, Rating, Scroll Area, Skeleton, Slider, Stat Card, Stepper, Timeline, Toggle, Toggle Group) as well as the Luma/Flint themes added in v4.4.0 — a real drift from the checklist `CONTRIBUTING.md` itself documents. Both now list every shipped component and theme.
+
+### Changed
+
+- `laravel/pint` bumped to `~1.30.6` (from `^1.13`, which had drifted to resolving `1.29.3`) — deliberately capped below `1.31.x`, which raises pint's own PHP floor to 8.3 and would otherwise break `ci.yml`'s `code-style` job (pinned to PHP 8.2) depending on which PHP version a contributor's `composer update` runs on.
+- `tailwindcss`/`@tailwindcss/vite` bumped to 4.3.3, `alpinejs` to 3.17.2. `vite` intentionally left on 5.x — the 8.x major is a separate, riskier bundler migration, not a routine dependency bump. `npm audit` reports one known moderate `esbuild` advisory (dev-server request forgery, GHSA-67mh-4wv8-2f99) with no fix available short of that same vite 8.x jump; it doesn't affect production builds.
+- `package.json` version bumped from the stale `4.0.0-dev` to `4.5.0-dev`.
+
 ## [4.4.0] — 2026-07-08
 
 ### Added
