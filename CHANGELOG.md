@@ -7,6 +7,8 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [4.5.0] — 2026-09-11
+
 ### Added
 
 - 10 new components: Drawer, Collapsible, Command (a Cmd+K-style palette), Context Menu, Hover Card, Calendar (a month-grid date-picker primitive, composable inside Popover for a full date-picker UX), Tag, Number Input, Aspect Ratio, and a standalone Sidebar (separate from Layout: App Shell's own inline sidebar, for consumers who want just the nav without the rest of App Shell's opinionated structure) — each with a Pest test suite and English/French documentation. 61 components total (including 6 layout components).
