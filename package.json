@@ -1,6 +1,6 @@
 {
   "name": "@halo-ui/core",
-  "version": "4.0.0-dev",
+  "version": "4.5.0-dev",
   "private": true,
   "type": "module",
   "description": "Modern, composable Blade UI component library for Laravel",

@@ -8,7 +8,7 @@ permalink: /
 
 **Modern, composable Blade UI component library for Laravel.** Elegant as shadcn/ui, native as Blade. Built with Tailwind CSS v4, Alpine.js, and Blade Icons.
 
-40 components across Typography, Layouts, Form, Display, Feedback, Overlays, and Navigation — plus 5 themes, all real CSS custom properties, no config-only theming that never actually changes anything rendered.
+61 components across Typography, Layouts, Form, Display, Feedback, Overlays, and Navigation — plus 7 themes, all real CSS custom properties, no config-only theming that never actually changes anything rendered.
 
 ## Get started
 
